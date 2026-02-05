@@ -3,226 +3,2108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIBE shift | Van data-inzicht naar strategische transformatie</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title>Roadmap Organisatie 2026</title>
     <style>
+        :root {
+            --bg-color: #f6f7f9;
+            --text-color: #1a1a1a;
+
+            /* DPG Media Palette */
+            --dpg-purple: #783c96;
+            --dpg-pink: #d23278;
+            --dpg-red: #e6463c;
+            --dpg-yellow: #fabb22;
+
+            /* Status Colors */
+            --status-todo: #95a5a6;
+            --status-busy: #3498db;
+            --status-done: #27ae60;
+            --status-blocked: #e74c3c;
+
+            /* UI Colors */
+            --border-color: #e0e0e0;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            user-select: none;
+            padding-bottom: 120px;
+            -webkit-font-smoothing: antialiased;
         }
-        .hero-bg {
-            background-color: #F8F9FA;
+
+        input, textarea, select { user-select: text; }
+
+        /* HEADER & CONTROLS */
+        header {
+            background-color: white;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 24px;
+            overflow: hidden;
         }
-        .brand-text {
-            color: #4A5568; /* Slate 600 */
+
+        .dpg-bar {
+            height: 6px;
+            background: linear-gradient(90deg, var(--dpg-purple) 0%, var(--dpg-pink) 33%, var(--dpg-red) 66%, var(--dpg-yellow) 100%);
+            width: 100%;
         }
-        .brand-accent {
-            color: #4F46E5; /* Indigo 600 */
+
+        .header-content {
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-        .brand-accent-bg {
-            background-color: #4F46E5; /* Indigo 600 */
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: -0.5px;
+            border-bottom: 2px solid transparent;
+            display: inline-block;
+            cursor: text;
         }
-        .section-title {
-            font-weight: 900;
-            font-size: 2.25rem; /* 36px */
-            line-height: 2.5rem; /* 40px */
+
+        .header-text h1:hover, .header-text h1:focus {
+            border-bottom-color: #ddd;
+            outline: none;
         }
-        .smooth-scroll {
-            scroll-behavior: smooth;
+
+        .header-text p {
+            margin: 8px 0 0;
+            color: #666;
+            font-size: 14px;
         }
+
+        .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap;}
+
+        button {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        button:hover { transform: translateY(-1px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        button:active { transform: translateY(0); }
+
+        .btn-primary { background-color: var(--dpg-purple); color: white; }
+        .btn-primary:hover { background-color: #622a7d; }
+
+        .btn-success { background-color: white; color: var(--status-done); border: 1px solid var(--status-done); }
+        .btn-success:hover { background-color: var(--status-done); color: white; }
+
+        .btn-export { background-color: white; color: #666; border: 1px solid #ddd; }
+        .btn-export:hover { background-color: #f9f9f9; color: #333; }
+
+        .btn-reset { background-color: transparent; color: #999; box-shadow: none; padding: 8px 12px;}
+        .btn-reset:hover { background-color: #f0f0f0; color: #e74c3c; box-shadow: none; transform: none;}
+
+        .btn-add-stream { background-color: white; color: var(--dpg-pink); border: 1px solid var(--dpg-pink); }
+        .btn-add-stream:hover { background-color: var(--dpg-pink); color: white; }
+
+        .btn-milestone { background-color: white; color: var(--dpg-red); border: 1px solid var(--dpg-red); }
+        .btn-milestone:hover { background-color: var(--dpg-red); color: white; }
+
+        .btn-filter { background-color: white; color: var(--dpg-purple); border: 1px solid var(--dpg-purple); }
+        .btn-filter:hover { background-color: var(--dpg-purple); color: white; }
+        .btn-filter.active { background-color: var(--dpg-purple); color: white; }
+
+        /* FILTER BAR */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .filter-bar span { font-size: 13px; color: #666; font-weight: 600; }
+        .filter-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .filter-btn:hover { border-color: var(--dpg-purple); }
+        .filter-btn.active { background: var(--dpg-purple); color: white; border-color: var(--dpg-purple); }
+
+        /* ROADMAP GRID */
+        .roadmap-wrapper {
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: 240px repeat(26, 120px);
+            min-width: max-content;
+            grid-auto-flow: row;
+            position: relative;
+        }
+
+        /* Headers */
+        .corner-header {
+            position: sticky;
+            left: 0;
+            z-index: 40;
+            background: #fff;
+            padding: 16px;
+            border-bottom: 2px solid var(--border-color);
+            border-right: 2px solid var(--border-color);
+            font-weight: 700;
+            color: var(--text-color);
+            grid-column: 1; grid-row: 1;
+        }
+
+        .week-header {
+            padding: 12px 5px;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            border-right: 1px dashed #eee;
+            background: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            color: #888;
+            grid-row: 1;
+            z-index: 20;
+        }
+        .week-header.current-week {
+            background: linear-gradient(180deg, #fff8e8 0%, #fff 100%);
+            border-bottom-color: var(--dpg-yellow);
+        }
+        .week-header.current-week::after {
+            content: '📍';
+            display: block;
+            font-size: 10px;
+        }
+
+        /* Stream Labels */
+        .stream-label {
+            position: sticky;
+            left: 0;
+            z-index: 30;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            border-right: 2px solid var(--border-color);
+            background-color: #fff;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            grid-column: 1;
+            gap: 8px;
+        }
+        .stream-label input {
+            flex: 1; border: 1px solid transparent; padding: 8px 10px;
+            font-weight: 700; font-size: 14px; border-radius: 6px;
+            color: var(--text-color);
+        }
+        .stream-label input:hover { background-color: #f4f4f4; }
+        .stream-label input:focus { border-color: var(--dpg-purple); outline: none; background: #fff;}
+        .stream-delete-btn {
+            opacity: 0;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: #fee;
+            color: var(--dpg-red);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s;
+            flex-shrink: 0;
+        }
+        .stream-label:hover .stream-delete-btn { opacity: 1; }
+        .stream-delete-btn:hover { background: var(--dpg-red); color: white; }
+
+        /* Stream Tracks */
+        .stream-row-background {
+            grid-column: 2 / -1;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+            min-height: 110px;
+            background-image: linear-gradient(to right, transparent 119px, #fafafa 1px);
+            background-size: 120px 100%;
+            z-index: 10;
+        }
+
+        /* Current week highlight */
+        .current-week-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--dpg-yellow);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* MILESTONES */
+        .milestone-container {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 0;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        .milestone-line {
+            position: absolute;
+            top: 45px;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--dpg-red);
+            pointer-events: auto;
+            cursor: ew-resize;
+        }
+
+        .milestone-line::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: -8px; right: -8px;
+            background: transparent;
+        }
+
+        .milestone-label {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--dpg-red);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            pointer-events: auto;
+            cursor: ew-resize;
+        }
+
+        .milestone-line:hover .milestone-label {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        /* BACKLOG SECTION */
+        .backlog-wrapper {
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .backlog-header {
+            background-color: #f9f9f9;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .backlog-header h3 { margin: 0; color: var(--text-color); font-size: 16px; font-weight: 700; }
+        .backlog-header p { margin: 5px 0 0; font-size: 13px; color: #7f8c8d; }
+
+        .backlog-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            min-height: 120px;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        /* TASK CARDS */
+        .task-card {
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 13px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow: hidden;
+            border-left: 4px solid;
+            z-index: 15;
+            box-sizing: border-box;
+            background: white;
+            white-space: normal;
+            line-height: 1.3;
+            transition: box-shadow 0.2s ease, z-index 0s;
+            position: absolute;
+            height: 32px;
+        }
+
+        /* Expanded card when no overlap - more space for title */
+        .task-card.expanded {
+            height: 52px;
+        }
+        .task-card.expanded .task-title {
+            white-space: normal;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .task-card.expanded .task-owner-inline {
+            display: block;
+            font-size: 10px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .task-card.filtered-out {
+            opacity: 0.2;
+        }
+
+        .backlog-container .task-card {
+            position: relative;
+            width: 200px;
+            height: 90px;
+            border-left-color: #95a5a6;
+            background-color: #f8f9fa;
+            top: auto; left: auto;
+            border: 1px solid #eee;
+            border-left: 4px solid #95a5a6;
+        }
+
+        .task-card:hover {
+            box-shadow: var(--hover-shadow);
+            z-index: 100;
+        }
+        .task-card.dragging { opacity: 0.8; cursor: grabbing; z-index: 1000; pointer-events: none; transform: scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.2);}
+
+        .task-header { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; margin-bottom: 2px; }
+        .task-title { font-weight: 700; color: var(--text-color); font-size: 11px; padding-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .task-desc { font-size: 10px; color: #666; display: none; margin-bottom: auto;}
+
+        /* Floating tooltip for task cards */
+        .task-tooltip {
+            display: none;
+            position: fixed;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            z-index: 9999;
+            max-width: 280px;
+            pointer-events: none;
+        }
+        .task-tooltip.visible { display: block; }
+        .task-tooltip .tooltip-title { font-weight: 700; font-size: 13px; margin-bottom: 6px; color: var(--text-color); }
+        .task-tooltip .tooltip-desc { font-size: 12px; color: #666; margin-bottom: 8px; line-height: 1.4; }
+        .task-tooltip .tooltip-meta { font-size: 11px; color: #888; display: flex; gap: 12px; flex-wrap: wrap; }
+        .task-tooltip .tooltip-meta span { display: flex; align-items: center; gap: 4px; }
+
+        .task-footer {
+            margin-top: auto;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .task-card:hover .task-footer { display: flex; }
+
+        .task-owner {
+            font-size: 10px; color: #888; font-style: italic; display: flex; align-items: center; gap: 3px;
+        }
+        .task-owner::before { content: '👤'; font-style: normal; font-size: 9px; }
+
+        /* STATUS BADGE */
+        .status-badge {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-left: 4px;
+        }
+        .status-todo { background-color: var(--status-todo); }
+        .status-busy { background-color: var(--status-busy); }
+        .status-done { background-color: var(--status-done); }
+        .status-blocked { background-color: var(--status-blocked); }
+
+        /* RESIZE HANDLES */
+        .resize-handle {
+            position: absolute;
+            right: 0; top: 0; bottom: 0;
+            width: 12px;
+            cursor: e-resize;
+            background: transparent;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .resize-handle::after {
+            content: '';
+            height: 20px;
+            width: 3px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 2px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .resize-handle:hover::after { opacity: 1; }
+        .backlog-container .resize-handle { display: none; }
+
+        /* MODAL */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(2px);
+            justify-content: center; align-items: center; z-index: 2000;
+        }
+        .modal-content {
+            background: white; padding: 30px; border-radius: 12px; width: 450px; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-top: 6px solid var(--dpg-purple);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;}
+        .modal-header h3 { margin: 0; font-size: 20px; font-weight: 800; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: #444; }
+        input[type="text"], input[type="number"], input[type="file"], select, textarea {
+            width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;
+            font-family: inherit; font-size: 14px; transition: border 0.2s;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--dpg-purple); outline: none; }
+        textarea { resize: vertical; min-height: 80px; }
+
+        .modal-buttons { display: flex; justify-content: space-between; margin-top: 30px; pt: 20px; border-top: 1px solid #eee; padding-top: 20px;}
+        .btn-group-right { display: flex; gap: 10px; }
+        .btn-cancel { background-color: #f1f2f6; color: #333; }
+        .btn-cancel:hover { background-color: #e1e2e6; }
+        .btn-delete { background-color: white; color: var(--dpg-red); border: 1px solid var(--dpg-red); margin-right: auto; padding: 10px 14px;}
+        .btn-delete:hover { background-color: #fff5f5; }
+
+        /* TOAST */
+        #toast {
+            visibility: hidden; min-width: 280px; background-color: var(--text-color); color: #fff;
+            text-align: center; border-radius: 50px; padding: 14px 24px; position: fixed;
+            z-index: 3000; left: 50%; bottom: 40px; transform: translateX(-50%);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); font-weight: 600;
+        }
+        #toast.show { visibility: visible; animation: fadein 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), fadeout 0.4s 2.6s; }
+
+        @keyframes fadein { from {bottom: 0; opacity: 0; transform: translateX(-50%) scale(0.9);} to {bottom: 40px; opacity: 1; transform: translateX(-50%) scale(1);} }
+        @keyframes fadeout { from {bottom: 40px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        /* UNSAVED INDICATOR */
+        .unsaved-indicator {
+            display: none;
+            color: var(--dpg-red);
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .unsaved-indicator.show { display: inline; }
+
+        /* VIEW TOGGLE */
+        .view-toggle {
+            display: flex;
+            gap: 4px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            padding: 4px;
+        }
+        .view-toggle button {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            color: #666;
+            box-shadow: none;
+        }
+        .view-toggle button:hover { background: #e0e0e0; transform: none; box-shadow: none; }
+        .view-toggle button.active { background: white; color: var(--dpg-purple); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+        /* LIST VIEW */
+        .list-view-wrapper {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        .list-view-wrapper.active { display: block; }
+
+        .list-view-header {
+            background: #f9f9f9;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .list-view-header h3 { margin: 0; font-size: 16px; font-weight: 700; }
+        .list-view-header .task-count { font-size: 13px; color: #666; }
+
+        .list-view-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .list-view-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: #fafafa;
+            border-bottom: 2px solid var(--border-color);
+            font-size: 12px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .list-view-table th:hover { background: #f0f0f0; }
+        .list-view-table th.sorted-asc::after { content: ' ↑'; }
+        .list-view-table th.sorted-desc::after { content: ' ↓'; }
+
+        .list-view-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        .list-view-table tr:hover { background: #fafafa; cursor: pointer; }
+        .list-view-table tr.filtered-out { opacity: 0.3; }
+
+        .list-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .list-status-badge.todo { background: #f0f0f0; color: #666; }
+        .list-status-badge.busy { background: #e3f2fd; color: #1976d2; }
+        .list-status-badge.done { background: #e8f5e9; color: #388e3c; }
+        .list-status-badge.blocked { background: #ffebee; color: #d32f2f; }
+
+        .list-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .list-status-dot.todo { background: var(--status-todo); }
+        .list-status-dot.busy { background: var(--status-busy); }
+        .list-status-dot.done { background: var(--status-done); }
+        .list-status-dot.blocked { background: var(--status-blocked); }
+
+        .list-stream-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            border-left: 3px solid;
+        }
+
+        .list-owner { color: #666; font-size: 13px; }
+        .list-date { color: #888; font-size: 13px; white-space: nowrap; }
+        .list-date.overdue { color: var(--dpg-red); font-weight: 600; }
+        .list-date.soon { color: var(--dpg-yellow); }
+
     </style>
 </head>
-<body class="bg-white text-gray-800 smooth-scroll">
+<body>
 
-    <!-- Navigatiebalk -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold brand-text">VIBE <span class="brand-accent">shift</span></a>
-            <div class="hidden md:flex space-x-8">
-                <a href="#diensten" class="text-gray-600 hover:text-brand-accent transition">Diensten</a>
-                <a href="#over" class="text-gray-600 hover:text-brand-accent transition">Over mij</a>
-                <a href="#contact" class="text-gray-600 hover:text-brand-accent transition">Contact</a>
+<header>
+    <div class="dpg-bar"></div>
+    <div class="header-content">
+        <div class="header-text">
+            <h1 contenteditable="true" id="roadmapTitle">Roadmap Organisatie 2026</h1>
+            <p>Klik 💾 om wijzigingen op te slaan. <span id="unsavedIndicator" class="unsaved-indicator">● Niet-opgeslagen wijzigingen</span></p>
+        </div>
+        <div class="controls">
+            <div class="view-toggle">
+                <button id="btnRoadmapView" class="active" onclick="setView('roadmap')">Roadmap</button>
+                <button id="btnListView" onclick="setView('list')">Lijstweergave</button>
             </div>
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
+            <button class="btn-reset" onclick="changePassword()" title="Wachtwoord wijzigen">🔑</button>
+            <button class="btn-export" onclick="reloadFromServer()" title="Data herladen van Google Sheets">🔄 Herladen</button>
+            <button class="btn-export" onclick="showImportModal()" title="CSV importeren">📥 Import</button>
+            <button class="btn-export" onclick="exportToCSV()" title="Exporteren naar CSV">📤 Export</button>
+            <button class="btn-success" onclick="manualSave()" title="Opslaan naar Google Sheets">💾 Opslaan</button>
+            <button class="btn-milestone" onclick="addMilestone()">⚑ Mijlpaal</button>
+            <button class="btn-add-stream" onclick="addNewStream()">+ Stream</button>
+            <button class="btn-primary" onclick="openModal()">+ Nieuwe Taak</button>
+        </div>
+    </div>
+</header>
+
+<!-- Filter Bar -->
+<div class="filter-bar" id="filterBar">
+    <span>Filter op eigenaar:</span>
+    <button class="filter-btn active" onclick="setOwnerFilter(null)">Alle</button>
+    <!-- Dynamic owner buttons -->
+</div>
+
+<div class="roadmap-wrapper">
+    <div class="roadmap-grid" id="roadmapGrid">
+        <!-- Grid via JS -->
+    </div>
+    <!-- Container for Absolute Milestones -->
+    <div id="milestoneLayer" class="milestone-container"></div>
+</div>
+
+<div class="backlog-wrapper" id="backlogWrapper">
+    <div class="backlog-header">
+        <h3>Nog in te plannen (Backlog)</h3>
+        <p>Sleep taken vanuit hier naar het rooster om ze in te plannen.</p>
+    </div>
+    <div id="backlog-container" class="backlog-container">
+        <!-- Backlog taken via JS -->
+    </div>
+</div>
+
+<!-- List View -->
+<div class="list-view-wrapper" id="listViewWrapper">
+    <div class="list-view-header">
+        <h3>Alle Taken</h3>
+        <span class="task-count" id="taskCount">0 taken</span>
+    </div>
+    <table class="list-view-table">
+        <thead>
+            <tr>
+                <th onclick="sortListBy('title')">Titel</th>
+                <th onclick="sortListBy('stream')">Stream</th>
+                <th onclick="sortListBy('owner')">Eigenaar</th>
+                <th onclick="sortListBy('status')">Status</th>
+                <th onclick="sortListBy('start')">Start</th>
+                <th onclick="sortListBy('end')">Deadline</th>
+            </tr>
+        </thead>
+        <tbody id="listViewBody">
+            <!-- Tasks via JS -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Task Modal -->
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Taak Bewerken</h3>
+        </div>
+        <input type="hidden" id="taskId">
+
+        <div class="form-group">
+            <label>Taak Naam</label>
+            <input type="text" id="taskTitle" placeholder="Naam">
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <select id="taskStatus">
+                <option value="todo">⚪ Te doen</option>
+                <option value="busy">🔵 Mee bezig</option>
+                <option value="done">🟢 Klaar</option>
+                <option value="blocked">🔴 Geblokkeerd</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Omschrijving</label>
+            <textarea id="taskDesc" placeholder="Korte toelichting"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Eigenaar / Lead</label>
+            <input type="text" id="taskOwner" placeholder="Bijv. Roxanne, Pieter, Doeschka...">
+        </div>
+
+        <div class="form-group">
+            <label>Stream</label>
+            <select id="taskStream">
+                <!-- Dynamisch -->
+            </select>
+        </div>
+        <div style="display: flex; gap: 15px;">
+            <div class="form-group" style="flex: 1;">
+                <label>Start Week (1-26)</label>
+                <input type="number" id="taskStart" min="1" max="26">
+            </div>
+            <div class="form-group" style="flex: 1;">
+                <label>Duur (weken)</label>
+                <input type="number" id="taskDuration" min="1" max="26">
             </div>
         </div>
-        <!-- Mobiel menu -->
-        <div id="mobile-menu" class="hidden md:hidden">
-            <a href="#diensten" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100">Diensten</a>
-            <a href="#over" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100">Over mij</a>
-            <a href="#contact" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-100">Contact</a>
-        </div>
-    </nav>
 
-    <!-- Hero Sectie -->
-    <header class="hero-bg">
-        <div class="container mx-auto px-6 py-20 md:py-32 text-center">
-            <h1 class="text-4xl md:text-6xl font-black text-gray-800 leading-tight">
-                Vergroot de <span class="brand-accent">impact</span> van je team of organisatie.
-            </h1>
-            <p class="mt-6 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                Van data-inzichten tot strategische transformaties. Ik help je de verborgen verhalen in je data te vinden en om te zetten in duurzaam resultaat.
+        <div class="modal-buttons">
+            <button id="btnDelete" class="btn-delete" onclick="deleteCurrentTask()">Verwijderen</button>
+            <div class="btn-group-right">
+                <button class="btn-cancel" onclick="closeModal()">Annuleren</button>
+                <button class="btn-primary" onclick="saveTask()">Opslaan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import Modal -->
+<div id="importModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>CSV Importeren</h3>
+        </div>
+        <div class="form-group">
+            <label>Selecteer CSV bestand</label>
+            <input type="file" id="csvFileInput" accept=".csv">
+            <p style="font-size:12px;color:#666;margin-top:8px;">
+                Formaat: ID, Stream, Titel, Omschrijving, Status, Eigenaar, Start Week, Duur
             </p>
-            <a href="#contact" class="mt-10 inline-block brand-accent-bg text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:opacity-90 transition transform hover:-translate-y-1">
-                Start de shift
-            </a>
         </div>
-    </header>
-
-    <!-- VIBE Filosofie Sectie -->
-    <section id="vibe" class="py-20">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="section-title text-gray-800">Wat is de VIBE <span class="brand-accent">shift</span>?</h2>
-                <p class="mt-4 text-lg text-gray-600">Mijn aanpak is gebaseerd op vier pijlers die samen voor een positieve en duurzame verandering zorgen.</p>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Verhaal -->
-                <div class="bg-gray-50 p-8 rounded-xl shadow-sm">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-full brand-accent-bg text-white mb-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Verhaal</h3>
-                    <p class="text-gray-600">Cijfers alleen overtuigen niet. Ik help je het verhaal achter de data te ontdekken en op een heldere, overtuigende manier te communiceren.</p>
-                </div>
-                <!-- Inzicht -->
-                <div class="bg-gray-50 p-8 rounded-xl shadow-sm">
-                    <div class="flex items-center justify-center h-12 w-12 rounded-full brand-accent-bg text-white mb-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Inzicht</h3>
-                    <p class="text-gray-600">Geen complexe IT-projecten, maar praktische inzichten uit de data die je al hebt. Ik gebruik tools als Looker en Sheets om kansen en knelpunten bloot te leggen.</p>
-                </div>
-                <!-- Begeleiding -->
-                <div class="bg-gray-50 p-8 rounded-xl shadow-sm">
-                     <div class="flex items-center justify-center h-12 w-12 rounded-full brand-accent-bg text-white mb-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Begeleiding</h3>
-                    <p class="text-gray-600">Ik lever geen rapporten die in de lade verdwijnen. Ik coach en begeleid teams om zelf data-gedreven te werken en de verandering duurzaam te verankeren.</p>
-                </div>
-                <!-- Efficiëntie -->
-                <div class="bg-gray-50 p-8 rounded-xl shadow-sm">
-                     <div class="flex items-center justify-center h-12 w-12 rounded-full brand-accent-bg text-white mb-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-2">Efficiëntie</h3>
-                    <p class="text-gray-600">Met een achtergrond in Lean Management kijk ik niet alleen naar data, maar ook naar werkprocessen. Hoe kunnen we slimmer werken, verspilling elimineren en meer impact maken?</p>
-                </div>
+        <div class="modal-buttons">
+            <div></div>
+            <div class="btn-group-right">
+                <button class="btn-cancel" onclick="closeImportModal()">Annuleren</button>
+                <button class="btn-primary" onclick="importCSV()">Importeren</button>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <!-- Diensten Sectie -->
-    <section id="diensten" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="section-title text-gray-800">Mijn Dienstenmenu</h2>
-                <p class="mt-4 text-lg text-gray-600">Een flexibel aanbod, afgestemd op de noden van jouw organisatie.</p>
-            </div>
-            <div class="max-w-4xl mx-auto space-y-8">
-                <!-- Dienst 1 -->
-                <div class="bg-white p-8 rounded-xl shadow-md border-l-4 border-brand-accent">
-                    <h3 class="text-2xl font-bold mb-2">Inspiratie & Kennisdeling</h3>
-                    <p class="text-gray-600">Een krachtige start om de mindset te veranderen. Ideaal voor teamdagen of als kick-off.
-                        <br><strong>Formats:</strong> Lezingen, Opleidingen, Workshops.</p>
-                </div>
-                <!-- Dienst 2 -->
-                <div class="bg-white p-8 rounded-xl shadow-md border-l-4 border-brand-accent">
-                    <h3 class="text-2xl font-bold mb-2">De VIBE Check</h3>
-                    <p class="text-gray-600">Een diepgaande analyse van je data, processen en strategie. Binnen enkele weken lever ik een helder rapport met concrete inzichten en een strategisch actieplan.</p>
-                </div>
-                <!-- Dienst 3 -->
-                <div class="bg-white p-8 rounded-xl shadow-md border-l-4 border-brand-accent">
-                    <h3 class="text-2xl font-bold mb-2">Het VIBE Shift Traject</h3>
-                    <p class="text-gray-600">Een intensief begeleidingstraject van meerdere maanden. We gaan samen aan de slag om de strategie te implementeren, processen te optimaliseren en de transformatie duurzaam te verankeren in je team.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<div id="toast">Wijzigingen opgeslagen</div>
 
-    <!-- Over Mij Sectie -->
-    <section id="over" class="py-20">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-1/3 text-center">
-                    <img src="https://placehold.co/400x400/E2E8F0/4A5568?text=Jouw+Foto" alt="Profielfoto" class="rounded-full shadow-lg mx-auto w-64 h-64 md:w-80 md:h-80 object-cover">
-                </div>
-                <div class="md:w-2/3">
-                    <h2 class="section-title text-gray-800 mb-4">Over de oprichter</h2>
-                    <p class="text-lg text-gray-600 mb-4">
-                        Na 18 jaar ervaring in diverse data-, communicatie- en leiderschapsrollen bij een toonaangevend mediabedrijf als DPG Media, besloot ik mijn passie te volgen: organisaties helpen om de brug te slaan tussen data en business.
-                    </p>
-                    <p class="text-gray-600 mb-4">
-                        Mijn expertise ligt in het vertalen van complexe data naar heldere, strategische verhalen. Ik ben geen pure IT'er, maar een strateeg die data gebruikt als gereedschap. Met een achtergrond in Lean Management en een passie voor efficiëntie, kijk ik altijd verder dan de cijfers. Ik geloof dat de grootste impact ontstaat wanneer een heldere datastrategie wordt gecombineerd met slimmere werkprocessen en een gemotiveerd team.
-                    </p>
-                    <p class="text-gray-600 font-semibold">
-                        Mijn missie met VIBE shift is om die positieve verandering in jouw organisatie te realiseren.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Task Tooltip -->
+<div id="taskTooltip" class="task-tooltip">
+    <div class="tooltip-title"></div>
+    <div class="tooltip-desc"></div>
+    <div class="tooltip-meta"></div>
+</div>
 
-    <!-- Contact Sectie -->
-    <section id="contact" class="py-20 bg-gray-900 text-white">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-4xl font-black mb-4">Klaar voor een VIBE shift?</h2>
-            <p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">Laten we kennismaken. Stuur me een bericht en ik neem snel contact met je op voor een vrijblijvend gesprek.</p>
-            <div class="max-w-xl mx-auto">
-                <form action="#" method="POST" class="space-y-6 text-left">
-                    <div>
-                        <label for="name" class="sr-only">Naam</label>
-                        <input type="text" name="name" id="name" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-brand-accent focus:outline-none" placeholder="Je naam" required>
-                    </div>
-                     <div>
-                        <label for="email" class="sr-only">Email</label>
-                        <input type="email" name="email" id="email" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-brand-accent focus:outline-none" placeholder="Je e-mailadres" required>
-                    </div>
-                    <div>
-                        <label for="message" class="sr-only">Bericht</label>
-                        <textarea name="message" id="message" rows="4" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-brand-accent focus:outline-none" placeholder="Je bericht" required></textarea>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="w-full md:w-auto brand-accent-bg text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:opacity-90 transition transform hover:-translate-y-1">
-                            Verstuur
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+<script>
+    // --- CONFIG ---
+    const CONFIG = {
+        startDate: new Date('2026-01-26'),
+        weeks: 26,
+        pxPerWeek: 120,
+        // Google Apps Script URL (persoonlijk Gmail account)
+        apiUrl: 'https://script.google.com/macros/s/AKfycbyVURaxiZl7dhZ1I72oyEZ30U3xOB0ckKQqqEtjVDZuA8ou_YCOcRS1BiFfEd1API2s/exec',
+        localKeys: {
+            apiKey: 'roadmap_api_key'
+        },
+        // DPG Media kleuren voor nieuwe streams
+        dpgColors: [
+            { color: '#f2ebf5', border: '#783c96' }, // Purple
+            { color: '#faeaf1', border: '#d23278' }, // Pink
+            { color: '#fceceb', border: '#e6463c' }, // Red
+            { color: '#fff8e8', border: '#fabb22' }, // Yellow
+        ]
+    };
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400">
-        <div class="container mx-auto px-6 py-6 text-center">
-            <p>&copy; 2024 VIBE shift. Alle rechten voorbehouden.</p>
-            <p class="text-sm mt-2">Geregistreerd via vibecheck.be</p>
-        </div>
-    </footer>
+    // --- DEFAULTS (gebruikt als sheet leeg is) ---
+    const defaultStreams = [
+        { id: 'gov', name: 'Governance & Stakeholders', color: '#f2ebf5', border: '#783c96' },
+        { id: 'hr', name: 'HR & Team', color: '#faeaf1', border: '#d23278' },
+        { id: 'proc', name: 'Processen & Werkwijze', color: '#fceceb', border: '#e6463c' },
+        { id: 'inn', name: 'Innovatie & Tooling', color: '#fff8e8', border: '#fabb22' }
+    ];
 
-    <script>
-        // Script voor mobiel menu
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+    const defaultTasks = [];
+    const defaultMilestones = [];
 
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+    // --- STATE ---
+    let tasks = [];
+    let streams = [];
+    let milestones = [];
+    let pageTitle = "Roadmap Organisatie 2026";
+    let apiKey = '';
+    let isSaving = false;
+    let hasUnsavedChanges = false;
+    let currentOwnerFilter = null;
+    let currentView = 'roadmap';
+    let listSortColumn = 'start';
+    let listSortDirection = 'asc';
 
-        // Sluit menu bij klikken op een link
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+    // --- INIT ---
+    async function init() {
+        // Vraag om wachtwoord als niet opgeslagen
+        apiKey = localStorage.getItem(CONFIG.localKeys.apiKey) || '';
+
+        if (!apiKey) {
+            apiKey = prompt('Voer het wachtwoord in om toegang te krijgen:');
+            if (!apiKey) {
+                document.body.innerHTML = '<div style="padding:50px;text-align:center;"><h2>Geen wachtwoord ingevoerd</h2><p>Ververs de pagina om opnieuw te proberen.</p></div>';
+                return;
+            }
+            localStorage.setItem(CONFIG.localKeys.apiKey, apiKey);
+        }
+
+        showLoading(true);
+
+        const loadResult = await loadData();
+
+        if (loadResult === 'no_access') {
+            // Wachtwoord fout - niet verder gaan
+            showLoading(false);
+            return;
+        }
+
+        if (loadResult === 'error') {
+            // Fout bij laden - toon lege roadmap maar geen defaults
+            showToast('Fout bij laden van data. Controleer je verbinding.');
+        }
+
+        // Als loadResult 'success' of 'empty' is, toon gewoon wat er in de sheet staat
+        // (streams, tasks, milestones zijn al gezet door loadData)
+
+        const el = document.getElementById('roadmapTitle');
+        el.innerText = pageTitle;
+
+        showLoading(false);
+        renderAll();
+        renderOwnerFilter();
+    }
+
+    function markUnsaved() {
+        hasUnsavedChanges = true;
+        document.getElementById('unsavedIndicator').classList.add('show');
+    }
+
+    function markSaved() {
+        hasUnsavedChanges = false;
+        document.getElementById('unsavedIndicator').classList.remove('show');
+    }
+
+    function showLoading(show) {
+        let loader = document.getElementById('loadingOverlay');
+        if (show) {
+            if (!loader) {
+                loader = document.createElement('div');
+                loader.id = 'loadingOverlay';
+                loader.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.9);display:flex;justify-content:center;align-items:center;z-index:9999;';
+                loader.innerHTML = '<div style="text-align:center;"><div style="width:40px;height:40px;border:4px solid #f3f3f3;border-top:4px solid #783c96;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto;"></div><p style="margin-top:15px;color:#666;">Laden...</p></div><style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>';
+                document.body.appendChild(loader);
+            }
+            loader.style.display = 'flex';
+        } else if (loader) {
+            loader.style.display = 'none';
+        }
+    }
+
+    async function loadData() {
+        try {
+            const url = `${CONFIG.apiUrl}?action=load&key=${encodeURIComponent(apiKey)}`;
+            const response = await fetch(url, {
+                method: 'GET',
+                redirect: 'follow'
             });
-        });
-    </script>
+            const text = await response.text();
+            const data = JSON.parse(text);
 
+            // Debug: log wat de API teruggeeft
+            console.log('API Response:', data);
+            console.log('Streams:', data.streams);
+            console.log('Tasks:', data.tasks);
+
+            if (data.error) {
+                if (data.error === 'Geen toegang') {
+                    localStorage.removeItem(CONFIG.localKeys.apiKey);
+                    alert('Ongeldig wachtwoord. Probeer opnieuw.');
+                    location.reload();
+                    return 'no_access';
+                }
+                throw new Error(data.error);
+            }
+
+            tasks = data.tasks || [];
+            streams = data.streams || [];
+            milestones = data.milestones || [];
+
+            console.log('Geladen streams:', streams.length);
+            console.log('Geladen tasks:', tasks.length);
+
+            // Als geen streams, return 'empty'
+            if (streams.length === 0) {
+                return 'empty';
+            }
+
+            return 'success';
+        } catch (err) {
+            console.error('Laden mislukt:', err);
+            showToast('Fout bij laden: ' + err.message);
+            return 'error';
+        }
+    }
+
+    async function saveData(silent = false) {
+        if (isSaving) return;
+        isSaving = true;
+
+        try {
+            const payload = JSON.stringify({
+                key: apiKey,
+                tasks: tasks,
+                streams: streams,
+                milestones: milestones
+            });
+
+            const response = await fetch(CONFIG.apiUrl, {
+                method: 'POST',
+                redirect: 'follow',
+                body: payload
+            });
+
+            const text = await response.text();
+            let result;
+            try {
+                result = JSON.parse(text);
+            } catch {
+                result = { success: true };
+            }
+
+            if (result.error) {
+                throw new Error(result.error);
+            }
+
+            markSaved();
+            if (!silent) showToast("Opgeslagen naar Google Sheets");
+        } catch (err) {
+            console.error('Opslaan mislukt:', err);
+            if (!silent) showToast('Fout bij opslaan: ' + err.message);
+        } finally {
+            isSaving = false;
+        }
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.innerText = msg; t.className = "show";
+        setTimeout(() => t.className = t.className.replace("show", ""), 3000);
+    }
+
+    // --- OWNER FILTER ---
+    function renderOwnerFilter() {
+        const bar = document.getElementById('filterBar');
+        // Keep the label and "Alle" button
+        bar.innerHTML = '<span>Filter op eigenaar:</span><button class="filter-btn active" onclick="setOwnerFilter(null)">Alle</button>';
+
+        // Get unique owners
+        const owners = [...new Set(tasks.map(t => t.owner).filter(o => o))];
+        owners.sort();
+
+        owners.forEach(owner => {
+            const btn = document.createElement('button');
+            btn.className = 'filter-btn';
+            btn.textContent = owner;
+            btn.onclick = () => setOwnerFilter(owner);
+            bar.appendChild(btn);
+        });
+    }
+
+    function setOwnerFilter(owner) {
+        currentOwnerFilter = owner;
+
+        // Update button states
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if ((owner === null && btn.textContent === 'Alle') || btn.textContent === owner) {
+                btn.classList.add('active');
+            }
+        });
+
+        renderAll();
+    }
+
+    // --- MILESTONE LOGIC ---
+    function addMilestone() {
+        const name = prompt("Naam van de mijlpaal (vb. Go Live):");
+        if(name) {
+            const week = prompt("Weeknummer (1-26):", "1");
+            const weekNum = parseInt(week);
+            if(!isNaN(weekNum) && weekNum >= 1 && weekNum <= CONFIG.weeks) {
+                milestones.push({
+                    id: Date.now(),
+                    name: name,
+                    week: weekNum - 1 // 0-based
+                });
+                markUnsaved();
+                renderMilestones();
+            } else {
+                alert("Ongeldig weeknummer.");
+            }
+        }
+    }
+
+    function removeMilestone(id) {
+        if(confirm("Mijlpaal verwijderen?")) {
+            milestones = milestones.filter(m => m.id !== id);
+            markUnsaved();
+            renderMilestones();
+        }
+    }
+
+    // --- LOGIC: STREAMS ---
+    function addNewStream() {
+        const name = prompt("Naam van de nieuwe stream:");
+        if(name) {
+            const id = 'stream_' + Date.now();
+            // Gebruik DPG kleuren in rotatie
+            const colorIdx = streams.length % CONFIG.dpgColors.length;
+            const colors = CONFIG.dpgColors[colorIdx];
+
+            streams.push({
+                id: id,
+                name: name,
+                color: colors.color,
+                border: colors.border
+            });
+            markUnsaved();
+            renderAll();
+        }
+    }
+
+    function deleteStream(streamId) {
+        const stream = streams.find(s => s.id === streamId);
+        if (!stream) return;
+
+        const tasksInStream = tasks.filter(t => t.stream === streamId).length;
+        let confirmMsg = `Stream "${stream.name}" verwijderen?`;
+        if (tasksInStream > 0) {
+            confirmMsg += `\n\n${tasksInStream} taak/taken worden verplaatst naar de backlog.`;
+        }
+
+        if (confirm(confirmMsg)) {
+            // Move tasks to backlog
+            tasks.forEach(t => {
+                if (t.stream === streamId) {
+                    t.stream = null;
+                }
+            });
+
+            // Remove stream
+            streams = streams.filter(s => s.id !== streamId);
+
+            markUnsaved();
+            renderAll();
+            showToast(`Stream "${stream.name}" verwijderd`);
+        }
+    }
+
+    function updateStreamName(id, newName) {
+        const s = streams.find(x => x.id === id);
+        if(s) {
+            s.name = newName;
+            markUnsaved();
+        }
+    }
+
+    // --- CURRENT WEEK ---
+    function getCurrentWeekIndex() {
+        const now = new Date();
+        const start = new Date(CONFIG.startDate);
+        const diffTime = now - start;
+        const diffWeeks = Math.floor(diffTime / (7 * 24 * 60 * 60 * 1000));
+        return Math.max(0, Math.min(CONFIG.weeks - 1, diffWeeks));
+    }
+
+    // --- LOGIC: RENDERING ---
+    function renderAll() {
+        renderGrid();
+        renderBacklog();
+        renderMilestones();
+        if (currentView === 'list') {
+            renderListView();
+        }
+    }
+
+    function getWeekLabel(idx) {
+        const d = new Date(CONFIG.startDate);
+        d.setDate(d.getDate() + (idx * 7));
+        return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
+    }
+
+    function renderGrid() {
+        const grid = document.getElementById('roadmapGrid');
+        grid.innerHTML = '';
+        const currentWeek = getCurrentWeekIndex();
+
+        // 1. Corner
+        const corner = document.createElement('div');
+        corner.className = 'corner-header';
+        corner.textContent = 'Stream';
+        grid.appendChild(corner);
+
+        // 2. Headers
+        for(let i=0; i<CONFIG.weeks; i++) {
+            const h = document.createElement('div');
+            h.className = 'week-header';
+            if (i === currentWeek) h.classList.add('current-week');
+            h.style.gridColumn = i + 2;
+            h.textContent = getWeekLabel(i);
+            grid.appendChild(h);
+        }
+
+        // 3. Streams
+        streams.forEach((s, idx) => {
+            const row = idx + 2;
+
+            // Label
+            const lbl = document.createElement('div');
+            lbl.className = 'stream-label';
+            lbl.style.gridRow = row;
+            lbl.style.borderLeft = `5px solid ${s.border}`;
+            const inp = document.createElement('input');
+            inp.value = s.name;
+            inp.onchange = (e) => updateStreamName(s.id, e.target.value);
+            lbl.appendChild(inp);
+
+            // Delete button
+            const delBtn = document.createElement('button');
+            delBtn.className = 'stream-delete-btn';
+            delBtn.innerHTML = '×';
+            delBtn.title = 'Stream verwijderen';
+            delBtn.onclick = (e) => { e.stopPropagation(); deleteStream(s.id); };
+            lbl.appendChild(delBtn);
+
+            grid.appendChild(lbl);
+
+            // Track
+            const track = document.createElement('div');
+            track.className = 'stream-row-background';
+            track.id = `track-${s.id}`;
+            track.dataset.streamId = s.id;
+            track.style.gridRow = row;
+
+            // Current week line
+            const weekLine = document.createElement('div');
+            weekLine.className = 'current-week-line';
+            weekLine.style.left = `${currentWeek * CONFIG.pxPerWeek + CONFIG.pxPerWeek / 2}px`;
+            track.appendChild(weekLine);
+
+            // Scheduled Tasks - with stacking for overlapping cards
+            const myTasks = tasks.filter(t => t.stream === s.id);
+            const rows = assignTaskRows(myTasks);
+            const hasOverlap = rows.length > 1;
+
+            // Calculate track height based on overlap
+            const cardHeight = hasOverlap ? 38 : 58; // Expanded cards are taller
+            const trackHeight = Math.max(110, rows.length * cardHeight + 20);
+            track.style.height = `${trackHeight}px`;
+
+            myTasks.forEach(t => {
+                const rowIdx = rows.findIndex(row => row.includes(t.id));
+                const el = createTaskElement(t, s.color, s.border, rowIdx, !hasOverlap);
+                track.appendChild(el);
+            });
+
+            grid.appendChild(track);
+        });
+    }
+
+    // Assign tasks to rows to avoid overlap
+    function assignTaskRows(tasks) {
+        const rows = [];
+        const sorted = [...tasks].sort((a, b) => a.start - b.start);
+
+        sorted.forEach(task => {
+            const taskEnd = task.start + task.duration;
+            let placed = false;
+
+            for (let i = 0; i < rows.length; i++) {
+                const canPlace = rows[i].every(existingId => {
+                    const existing = tasks.find(t => t.id === existingId);
+                    if (!existing) return true;
+                    const existingEnd = existing.start + existing.duration;
+                    return taskEnd <= existing.start || task.start >= existingEnd;
+                });
+
+                if (canPlace) {
+                    rows[i].push(task.id);
+                    placed = true;
+                    break;
+                }
+            }
+
+            if (!placed) {
+                rows.push([task.id]);
+            }
+        });
+
+        return rows;
+    }
+
+    function renderMilestones() {
+        const container = document.getElementById('milestoneLayer');
+        container.innerHTML = '';
+
+        milestones.forEach(m => {
+            const line = document.createElement('div');
+            line.className = 'milestone-line';
+            const leftPos = 240 + (m.week * CONFIG.pxPerWeek);
+            line.style.left = `${leftPos}px`;
+            line.title = "Sleep om te verplaatsen, dubbelklik om te verwijderen";
+
+            // Drag milestone
+            line.addEventListener('mousedown', (e) => initMilestoneDrag(e, m, line));
+            line.addEventListener('dblclick', () => removeMilestone(m.id));
+
+            const label = document.createElement('div');
+            label.className = 'milestone-label';
+            label.innerText = m.name;
+            line.appendChild(label);
+
+            container.appendChild(line);
+        });
+    }
+
+    // Milestone drag
+    let milestoneDragData = { active: false, milestone: null, startX: 0 };
+
+    function initMilestoneDrag(e, milestone, el) {
+        e.preventDefault();
+        milestoneDragData = {
+            active: true,
+            milestone: milestone,
+            el: el,
+            startX: e.clientX,
+            originalWeek: milestone.week
+        };
+        document.addEventListener('mousemove', onMilestoneDrag);
+        document.addEventListener('mouseup', endMilestoneDrag);
+    }
+
+    function onMilestoneDrag(e) {
+        if (!milestoneDragData.active) return;
+        const diff = e.clientX - milestoneDragData.startX;
+        const weekDiff = Math.round(diff / CONFIG.pxPerWeek);
+        let newWeek = milestoneDragData.originalWeek + weekDiff;
+        newWeek = Math.max(0, Math.min(CONFIG.weeks - 1, newWeek));
+
+        milestoneDragData.el.style.left = `${240 + (newWeek * CONFIG.pxPerWeek)}px`;
+        milestoneDragData.milestone.week = newWeek;
+    }
+
+    function endMilestoneDrag(e) {
+        if (!milestoneDragData.active) return;
+        milestoneDragData.active = false;
+        document.removeEventListener('mousemove', onMilestoneDrag);
+        document.removeEventListener('mouseup', endMilestoneDrag);
+        markUnsaved();
+    }
+
+    function renderBacklog() {
+        const container = document.getElementById('backlog-container');
+        container.innerHTML = '';
+        const backlogTasks = tasks.filter(t => !t.stream);
+
+        backlogTasks.forEach(t => {
+            const el = createTaskElement(t, '#fff', '#95a5a6', 0);
+            container.appendChild(el);
+        });
+    }
+
+    function createTaskElement(task, bgColor, borderColor, rowIdx = 0, expanded = false) {
+        const el = document.createElement('div');
+        el.className = 'task-card';
+        el.id = `task-${task.id}`;
+        el.style.borderLeftColor = borderColor;
+        el.style.backgroundColor = bgColor;
+
+        // Apply filter
+        if (currentOwnerFilter && task.owner !== currentOwnerFilter) {
+            el.classList.add('filtered-out');
+        }
+
+        // Add expanded class when no overlap
+        if (expanded && task.stream) {
+            el.classList.add('expanded');
+        }
+
+        if (task.stream) {
+            // Grid Position with row offset (different spacing for expanded vs compact)
+            const rowHeight = expanded ? 58 : 38;
+            el.style.left = `${task.start * CONFIG.pxPerWeek}px`;
+            el.style.width = `${task.duration * CONFIG.pxPerWeek - 4}px`;
+            el.style.top = `${5 + rowIdx * rowHeight}px`;
+
+            // Resize Handle
+            const handle = document.createElement('div');
+            handle.className = 'resize-handle';
+            handle.addEventListener('mousedown', (e) => initResize(e, task, el));
+            el.appendChild(handle);
+        } else {
+            el.classList.add('unscheduled');
+        }
+
+        // Header (Title + Status Badge)
+        const header = document.createElement('div');
+        header.className = 'task-header';
+
+        const title = document.createElement('span');
+        title.className = 'task-title';
+        title.innerText = task.title;
+        header.appendChild(title);
+
+        // Status Badge
+        const statusBadge = document.createElement('div');
+        statusBadge.className = `status-badge status-${task.status || 'todo'}`;
+        statusBadge.title = getStatusLabel(task.status || 'todo');
+        header.appendChild(statusBadge);
+
+        el.appendChild(header);
+
+        // Show owner inline for expanded cards
+        if (expanded && task.owner && task.stream) {
+            const ownerInline = document.createElement('span');
+            ownerInline.className = 'task-owner-inline';
+            ownerInline.innerText = `👤 ${task.owner}`;
+            el.appendChild(ownerInline);
+        }
+
+        const desc = document.createElement('span');
+        desc.className = 'task-desc';
+        desc.innerText = task.desc || '';
+        el.appendChild(desc);
+
+        // Footer (Owner)
+        const footer = document.createElement('div');
+        footer.className = 'task-footer';
+
+        if (task.owner) {
+            const owner = document.createElement('span');
+            owner.className = 'task-owner';
+            owner.innerText = task.owner;
+            footer.appendChild(owner);
+        }
+
+        // End date
+        if (task.stream && task.start !== undefined && task.duration) {
+            const endDate = document.createElement('span');
+            endDate.style.cssText = 'font-size:10px;color:#888;';
+            const d = new Date(CONFIG.startDate);
+            d.setDate(d.getDate() + ((task.start + task.duration) * 7));
+            endDate.innerText = `→ ${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
+            footer.appendChild(endDate);
+        }
+
+        el.appendChild(footer);
+
+        // Tooltip events
+        el.addEventListener('mouseenter', (e) => showTaskTooltip(e, task));
+        el.addEventListener('mousemove', (e) => moveTaskTooltip(e));
+        el.addEventListener('mouseleave', () => hideTaskTooltip());
+
+        // Bind Drag & Click Logic
+        el.addEventListener('mousedown', (e) => initDrag(e, task, el));
+
+        return el;
+    }
+
+    // --- TOOLTIP ---
+    function showTaskTooltip(e, task) {
+        const tooltip = document.getElementById('taskTooltip');
+        const stream = streams.find(s => s.id === task.stream);
+
+        // Title
+        tooltip.querySelector('.tooltip-title').textContent = task.title || 'Geen titel';
+
+        // Description
+        const descEl = tooltip.querySelector('.tooltip-desc');
+        if (task.desc) {
+            descEl.textContent = task.desc;
+            descEl.style.display = 'block';
+        } else {
+            descEl.style.display = 'none';
+        }
+
+        // Meta info
+        let metaHtml = '';
+        if (task.owner) {
+            metaHtml += `<span>👤 ${task.owner}</span>`;
+        }
+        metaHtml += `<span class="status-badge status-${task.status || 'todo'}" style="width:8px;height:8px;display:inline-block;border-radius:50%;"></span> ${getStatusLabel(task.status || 'todo')}`;
+
+        if (task.stream && task.start !== undefined && task.duration) {
+            const startDate = new Date(CONFIG.startDate);
+            startDate.setDate(startDate.getDate() + (task.start * 7));
+            const endDate = new Date(CONFIG.startDate);
+            endDate.setDate(endDate.getDate() + ((task.start + task.duration) * 7));
+            metaHtml += `<span>📅 ${formatDate(startDate)} → ${formatDate(endDate)}</span>`;
+        }
+
+        if (stream) {
+            metaHtml += `<span style="color:${stream.border};">● ${stream.name}</span>`;
+        }
+
+        tooltip.querySelector('.tooltip-meta').innerHTML = metaHtml;
+
+        // Position
+        tooltip.style.left = (e.clientX + 15) + 'px';
+        tooltip.style.top = (e.clientY + 15) + 'px';
+        tooltip.classList.add('visible');
+    }
+
+    function moveTaskTooltip(e) {
+        const tooltip = document.getElementById('taskTooltip');
+        const tooltipRect = tooltip.getBoundingClientRect();
+
+        let left = e.clientX + 15;
+        let top = e.clientY + 15;
+
+        // Keep tooltip on screen
+        if (left + tooltipRect.width > window.innerWidth - 10) {
+            left = e.clientX - tooltipRect.width - 15;
+        }
+        if (top + tooltipRect.height > window.innerHeight - 10) {
+            top = e.clientY - tooltipRect.height - 15;
+        }
+
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
+    }
+
+    function hideTaskTooltip() {
+        document.getElementById('taskTooltip').classList.remove('visible');
+    }
+
+    function formatDate(d) {
+        return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
+    }
+
+    function getStatusLabel(code) {
+        const map = {
+            'todo': 'Te doen',
+            'busy': 'Mee bezig',
+            'done': 'Klaar',
+            'blocked': 'Geblokkeerd'
+        };
+        return map[code] || 'Onbekend';
+    }
+
+    // --- LOGIC: DRAG & DROP & CLICK DETECTION ---
+    let dragData = {
+        active: false,
+        isDragging: false,
+        task: null,
+        el: null,
+        ghost: null,
+        offX: 0,
+        offY: 0,
+        startX: 0,
+        startY: 0
+    };
+
+    function initDrag(e, task, el) {
+        if(e.button !== 0 || e.target.classList.contains('resize-handle')) return;
+        e.preventDefault();
+
+        const rect = el.getBoundingClientRect();
+        dragData = {
+            active: true,
+            isDragging: false,
+            startX: e.clientX,
+            startY: e.clientY,
+            task: task,
+            el: el,
+            offX: e.clientX - rect.left,
+            offY: e.clientY - rect.top,
+            ghost: null
+        };
+
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('mouseup', endDrag);
+    }
+
+    function onDrag(e) {
+        if(!dragData.active) return;
+
+        if (!dragData.isDragging) {
+            const dist = Math.sqrt(Math.pow(e.clientX - dragData.startX, 2) + Math.pow(e.clientY - dragData.startY, 2));
+            if (dist > 5) {
+                startActualDrag();
+            }
+        }
+
+        if (dragData.isDragging && dragData.ghost) {
+            dragData.ghost.style.left = (e.clientX - dragData.offX) + 'px';
+            dragData.ghost.style.top = (e.clientY - dragData.offY) + 'px';
+        }
+    }
+
+    function startActualDrag() {
+        hideTaskTooltip(); // Hide tooltip when dragging
+        dragData.isDragging = true;
+        const el = dragData.el;
+        const rect = el.getBoundingClientRect();
+
+        dragData.ghost = el.cloneNode(true);
+        dragData.ghost.classList.add('dragging');
+        dragData.ghost.style.position = 'fixed';
+        dragData.ghost.style.width = rect.width + 'px';
+        dragData.ghost.style.height = rect.height + 'px';
+        dragData.ghost.style.left = rect.left + 'px';
+        dragData.ghost.style.top = rect.top + 'px';
+        dragData.ghost.style.zIndex = 5000;
+        dragData.ghost.style.boxShadow = "0 15px 30px rgba(0,0,0,0.2)";
+        dragData.ghost.style.transform = "scale(1.02)";
+
+        document.body.appendChild(dragData.ghost);
+        el.style.opacity = 0.3;
+    }
+
+    function endDrag(e) {
+        if(!dragData.active) return;
+
+        if (dragData.isDragging) {
+            finishDrop(e);
+        } else {
+            openModal(dragData.task);
+        }
+
+        cleanupDrag();
+    }
+
+    function finishDrop(e) {
+        let droppedOnGrid = false;
+        const tracks = document.querySelectorAll('.stream-row-background');
+
+        for (let track of tracks) {
+            const rect = track.getBoundingClientRect();
+            if(e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                droppedOnGrid = true;
+                const streamId = track.dataset.streamId;
+
+                const trackX = rect.left;
+                const mouseRelX = (e.clientX - dragData.offX) - trackX;
+                let week = Math.round(mouseRelX / CONFIG.pxPerWeek);
+                if(week < 0) week = 0;
+                if(week > CONFIG.weeks - 1) week = CONFIG.weeks - 1;
+
+                dragData.task.stream = streamId;
+                dragData.task.start = week;
+                break;
+            }
+        }
+
+        if (!droppedOnGrid) {
+            const backlogRect = document.querySelector('.backlog-wrapper').getBoundingClientRect();
+            if (e.clientY >= backlogRect.top - 50) {
+                dragData.task.stream = null;
+            }
+        }
+
+        markUnsaved();
+        renderAll();
+    }
+
+    function cleanupDrag() {
+        dragData.active = false;
+        if(dragData.ghost) dragData.ghost.remove();
+        if(dragData.el) dragData.el.style.opacity = 1;
+        document.removeEventListener('mousemove', onDrag);
+        document.removeEventListener('mouseup', endDrag);
+    }
+
+    // --- LOGIC: RESIZE ---
+    let resizeData = { active: false, task: null, startX: 0, startWidth: 0 };
+
+    function initResize(e, task, el) {
+        e.stopPropagation();
+        e.preventDefault();
+        resizeData = {
+            active: true,
+            task: task,
+            startX: e.clientX,
+            startWidth: parseFloat(el.style.width)
+        };
+        document.addEventListener('mousemove', onResize);
+        document.addEventListener('mouseup', endResize);
+    }
+
+    function onResize(e) {
+        if(!resizeData.active) return;
+    }
+
+    function endResize(e) {
+        if(!resizeData.active) return;
+        resizeData.active = false;
+
+        const diff = e.clientX - resizeData.startX;
+        const newPixelWidth = resizeData.startWidth + diff;
+        let newDuration = Math.round(newPixelWidth / CONFIG.pxPerWeek);
+
+        if(newDuration < 1) newDuration = 1;
+        if((resizeData.task.start + newDuration) > CONFIG.weeks) newDuration = CONFIG.weeks - resizeData.task.start;
+
+        resizeData.task.duration = newDuration;
+
+        document.removeEventListener('mousemove', onResize);
+        document.removeEventListener('mouseup', endResize);
+
+        markUnsaved();
+        renderAll();
+    }
+
+    // --- LOGIC: MODAL ---
+    function openModal(task = null) {
+        const modal = document.getElementById('taskModal');
+        const select = document.getElementById('taskStream');
+
+        select.innerHTML = '<option value="">-- Nog in te plannen --</option>';
+        streams.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s.id; opt.innerText = s.name;
+            select.appendChild(opt);
+        });
+
+        if(task) {
+            document.getElementById('modalTitle').innerText = "Taak Bewerken";
+            document.getElementById('taskId').value = task.id;
+            document.getElementById('taskTitle').value = task.title;
+            document.getElementById('taskDesc').value = task.desc || '';
+            document.getElementById('taskStatus').value = task.status || "todo";
+            document.getElementById('taskOwner').value = task.owner || "";
+            document.getElementById('taskStream').value = task.stream || "";
+            document.getElementById('taskStart').value = (task.start || 0) + 1;
+            document.getElementById('taskDuration').value = task.duration || 4;
+            document.getElementById('btnDelete').style.display = 'block';
+        } else {
+            document.getElementById('modalTitle').innerText = "Nieuwe Taak";
+            document.getElementById('taskId').value = "";
+            document.getElementById('taskTitle').value = "";
+            document.getElementById('taskDesc').value = "";
+            document.getElementById('taskStatus').value = "todo";
+            document.getElementById('taskOwner').value = "";
+            document.getElementById('taskStream').value = "";
+            document.getElementById('taskStart').value = getCurrentWeekIndex() + 1;
+            document.getElementById('taskDuration').value = 4;
+            document.getElementById('btnDelete').style.display = 'none';
+        }
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('taskModal').style.display = 'none'; }
+
+    function saveTask() {
+        const idVal = document.getElementById('taskId').value;
+        const title = document.getElementById('taskTitle').value;
+        const desc = document.getElementById('taskDesc').value;
+        const status = document.getElementById('taskStatus').value;
+        const owner = document.getElementById('taskOwner').value;
+        const stream = document.getElementById('taskStream').value || null;
+        let start = parseInt(document.getElementById('taskStart').value) - 1;
+        let dur = parseInt(document.getElementById('taskDuration').value);
+
+        if(!title) return alert("Titel verplicht");
+
+        const newTask = {
+            id: idVal ? parseInt(idVal) : Date.now(),
+            title, desc, stream, owner, status,
+            start: start >= 0 ? start : 0,
+            duration: dur > 0 ? dur : 4
+        };
+
+        if(idVal) {
+            const idx = tasks.findIndex(t => t.id == idVal);
+            if(idx > -1) tasks[idx] = newTask;
+        } else {
+            tasks.push(newTask);
+        }
+
+        markUnsaved();
+        renderAll();
+        renderOwnerFilter();
+        closeModal();
+    }
+
+    function deleteCurrentTask() {
+        const id = document.getElementById('taskId').value;
+        if(confirm("Taak verwijderen?")) {
+            tasks = tasks.filter(t => t.id != id);
+            markUnsaved();
+            renderAll();
+            renderOwnerFilter();
+            closeModal();
+        }
+    }
+
+    // --- IMPORT/EXPORT ---
+    function showImportModal() {
+        document.getElementById('importModal').style.display = 'flex';
+    }
+
+    function closeImportModal() {
+        document.getElementById('importModal').style.display = 'none';
+        document.getElementById('csvFileInput').value = '';
+    }
+
+    function importCSV() {
+        const fileInput = document.getElementById('csvFileInput');
+        const file = fileInput.files[0];
+        if (!file) {
+            alert('Selecteer eerst een CSV bestand');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const text = e.target.result;
+            const lines = text.split('\n');
+
+            // First pass: collect all unique stream names and create missing streams
+            const streamNames = new Set();
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                const values = parseCSVLine(line);
+                if (values.length < 8) continue;
+                const streamName = values[1];
+                if (streamName && streamName !== 'Backlog') {
+                    streamNames.add(streamName);
+                }
+            }
+
+            // Create missing streams with DPG colors
+            let streamsCreated = 0;
+            streamNames.forEach(name => {
+                if (!streams.find(s => s.name === name)) {
+                    const colorIdx = streams.length % CONFIG.dpgColors.length;
+                    const colors = CONFIG.dpgColors[colorIdx];
+                    streams.push({
+                        id: 'stream_' + Date.now() + '_' + streamsCreated,
+                        name: name,
+                        color: colors.color,
+                        border: colors.border
+                    });
+                    streamsCreated++;
+                }
+            });
+
+            // Second pass: import tasks
+            let tasksImported = 0;
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+
+                // Parse CSV line (handle quoted values)
+                const values = parseCSVLine(line);
+                if (values.length < 8) continue;
+
+                const [id, streamName, title, desc, status, owner, startWeek, duration] = values;
+
+                // Find stream by name (now guaranteed to exist if not Backlog)
+                let stream = streams.find(s => s.name === streamName);
+                let streamId = stream ? stream.id : null;
+
+                // Map status
+                let statusCode = 'todo';
+                if (status.includes('bezig')) statusCode = 'busy';
+                else if (status.includes('Klaar')) statusCode = 'done';
+                else if (status.includes('Geblokkeerd')) statusCode = 'blocked';
+
+                const task = {
+                    id: parseInt(id) || Date.now() + i,
+                    stream: streamId,
+                    title: title,
+                    desc: desc,
+                    status: statusCode,
+                    owner: owner,
+                    start: Math.max(0, parseInt(startWeek) - 1) || 0,
+                    duration: parseInt(duration) || 4
+                };
+
+                // Check if task exists, update or add
+                const existingIdx = tasks.findIndex(t => t.id === task.id);
+                if (existingIdx > -1) {
+                    tasks[existingIdx] = task;
+                } else {
+                    tasks.push(task);
+                }
+                tasksImported++;
+            }
+
+            markUnsaved();
+            renderAll();
+            renderOwnerFilter();
+            closeImportModal();
+
+            let msg = `${tasksImported} taken geïmporteerd`;
+            if (streamsCreated > 0) {
+                msg += `, ${streamsCreated} nieuwe stream(s) aangemaakt`;
+            }
+            showToast(msg);
+        };
+        reader.readAsText(file);
+    }
+
+    function parseCSVLine(line) {
+        const result = [];
+        let current = '';
+        let inQuotes = false;
+
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            if (char === '"') {
+                inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+                result.push(current.trim());
+                current = '';
+            } else {
+                current += char;
+            }
+        }
+        result.push(current.trim());
+        return result;
+    }
+
+    function exportToCSV() {
+        let csv = "ID,Stream,Titel,Omschrijving,Status,Eigenaar,Start Week,Duur\n";
+        tasks.forEach(t => {
+            const sName = t.stream ? (streams.find(s=>s.id===t.stream)?.name || 'Unknown') : 'Backlog';
+            const statusLabel = getStatusLabel(t.status || 'todo');
+            csv += `${t.id},"${sName}","${t.title || ''}","${t.desc || ''}","${statusLabel}","${t.owner || ''}",${(t.start||0)+1},${t.duration||4}\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'roadmap.csv';
+        a.click();
+    }
+
+    function manualSave() {
+        saveData();
+    }
+
+    async function reloadFromServer() {
+        if (hasUnsavedChanges) {
+            if (!confirm('Er zijn niet-opgeslagen wijzigingen. Toch herladen?')) {
+                return;
+            }
+        }
+        showLoading(true);
+        const result = await loadData();
+        if (result === 'success') {
+            markSaved();
+        }
+        renderAll();
+        renderOwnerFilter();
+        showLoading(false);
+        showToast('Data herladen van Google Sheets');
+    }
+
+    function changePassword() {
+        const newKey = prompt('Voer het nieuwe wachtwoord in:');
+        if (newKey) {
+            localStorage.setItem(CONFIG.localKeys.apiKey, newKey);
+            apiKey = newKey;
+            showToast('Wachtwoord gewijzigd - herlaad om te testen');
+        }
+    }
+
+    // Warn before leaving with unsaved changes
+    window.addEventListener('beforeunload', function(e) {
+        if (hasUnsavedChanges) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+
+    // --- VIEW TOGGLE ---
+    function setView(view) {
+        currentView = view;
+
+        // Update toggle buttons
+        document.getElementById('btnRoadmapView').classList.toggle('active', view === 'roadmap');
+        document.getElementById('btnListView').classList.toggle('active', view === 'list');
+
+        // Show/hide views
+        document.querySelector('.roadmap-wrapper').style.display = view === 'roadmap' ? 'block' : 'none';
+        document.getElementById('backlogWrapper').style.display = view === 'roadmap' ? 'block' : 'none';
+        document.getElementById('listViewWrapper').classList.toggle('active', view === 'list');
+        document.getElementById('filterBar').style.display = view === 'roadmap' ? 'flex' : 'none';
+
+        if (view === 'list') {
+            renderListView();
+        }
+    }
+
+    function renderListView() {
+        const tbody = document.getElementById('listViewBody');
+        tbody.innerHTML = '';
+
+        // Sort tasks
+        const sortedTasks = [...tasks].sort((a, b) => {
+            let valA, valB;
+
+            switch (listSortColumn) {
+                case 'title':
+                    valA = (a.title || '').toLowerCase();
+                    valB = (b.title || '').toLowerCase();
+                    break;
+                case 'stream':
+                    valA = getStreamName(a.stream);
+                    valB = getStreamName(b.stream);
+                    break;
+                case 'owner':
+                    valA = (a.owner || '').toLowerCase();
+                    valB = (b.owner || '').toLowerCase();
+                    break;
+                case 'status':
+                    const statusOrder = { 'blocked': 0, 'busy': 1, 'todo': 2, 'done': 3 };
+                    valA = statusOrder[a.status || 'todo'];
+                    valB = statusOrder[b.status || 'todo'];
+                    break;
+                case 'start':
+                    valA = a.start || 0;
+                    valB = b.start || 0;
+                    break;
+                case 'end':
+                    valA = (a.start || 0) + (a.duration || 0);
+                    valB = (b.start || 0) + (b.duration || 0);
+                    break;
+                default:
+                    valA = a.start || 0;
+                    valB = b.start || 0;
+            }
+
+            if (valA < valB) return listSortDirection === 'asc' ? -1 : 1;
+            if (valA > valB) return listSortDirection === 'asc' ? 1 : -1;
+            return 0;
+        });
+
+        // Update column headers
+        document.querySelectorAll('.list-view-table th').forEach(th => {
+            th.classList.remove('sorted-asc', 'sorted-desc');
+        });
+        const activeHeader = document.querySelector(`.list-view-table th[onclick="sortListBy('${listSortColumn}')"]`);
+        if (activeHeader) {
+            activeHeader.classList.add(listSortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc');
+        }
+
+        // Render tasks
+        sortedTasks.forEach(task => {
+            const tr = document.createElement('tr');
+            tr.onclick = () => openModal(task);
+
+            // Apply owner filter
+            if (currentOwnerFilter && task.owner !== currentOwnerFilter) {
+                tr.classList.add('filtered-out');
+            }
+
+            // Title
+            const tdTitle = document.createElement('td');
+            tdTitle.innerHTML = `<strong>${task.title || 'Geen titel'}</strong>`;
+            if (task.desc) {
+                tdTitle.innerHTML += `<br><span style="font-size:12px;color:#888;">${task.desc.substring(0, 60)}${task.desc.length > 60 ? '...' : ''}</span>`;
+            }
+            tr.appendChild(tdTitle);
+
+            // Stream
+            const tdStream = document.createElement('td');
+            const stream = streams.find(s => s.id === task.stream);
+            if (stream) {
+                tdStream.innerHTML = `<span class="list-stream-badge" style="background:${stream.color};border-left-color:${stream.border}">${stream.name}</span>`;
+            } else {
+                tdStream.innerHTML = `<span style="color:#999;font-style:italic;">Backlog</span>`;
+            }
+            tr.appendChild(tdStream);
+
+            // Owner
+            const tdOwner = document.createElement('td');
+            tdOwner.className = 'list-owner';
+            tdOwner.textContent = task.owner || '-';
+            tr.appendChild(tdOwner);
+
+            // Status
+            const tdStatus = document.createElement('td');
+            const status = task.status || 'todo';
+            tdStatus.innerHTML = `<span class="list-status-badge ${status}"><span class="list-status-dot ${status}"></span>${getStatusLabel(status)}</span>`;
+            tr.appendChild(tdStatus);
+
+            // Start date
+            const tdStart = document.createElement('td');
+            tdStart.className = 'list-date';
+            if (task.stream && task.start !== undefined) {
+                const startDate = new Date(CONFIG.startDate);
+                startDate.setDate(startDate.getDate() + (task.start * 7));
+                tdStart.textContent = `${String(startDate.getDate()).padStart(2,'0')}/${String(startDate.getMonth()+1).padStart(2,'0')}`;
+            } else {
+                tdStart.textContent = '-';
+            }
+            tr.appendChild(tdStart);
+
+            // End date (deadline)
+            const tdEnd = document.createElement('td');
+            tdEnd.className = 'list-date';
+            if (task.stream && task.start !== undefined && task.duration) {
+                const endDate = new Date(CONFIG.startDate);
+                endDate.setDate(endDate.getDate() + ((task.start + task.duration) * 7));
+                const today = new Date();
+
+                tdEnd.textContent = `${String(endDate.getDate()).padStart(2,'0')}/${String(endDate.getMonth()+1).padStart(2,'0')}`;
+
+                // Highlight if overdue or soon
+                if (endDate < today && task.status !== 'done') {
+                    tdEnd.classList.add('overdue');
+                } else if (endDate < new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000) && task.status !== 'done') {
+                    tdEnd.classList.add('soon');
+                }
+            } else {
+                tdEnd.textContent = '-';
+            }
+            tr.appendChild(tdEnd);
+
+            tbody.appendChild(tr);
+        });
+
+        // Update task count
+        document.getElementById('taskCount').textContent = `${tasks.length} taken`;
+    }
+
+    function getStreamName(streamId) {
+        if (!streamId) return 'Backlog';
+        const stream = streams.find(s => s.id === streamId);
+        return stream ? stream.name : 'Onbekend';
+    }
+
+    function sortListBy(column) {
+        if (listSortColumn === column) {
+            listSortDirection = listSortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            listSortColumn = column;
+            listSortDirection = 'asc';
+        }
+        renderListView();
+    }
+
+    // Go
+    init();
+
+</script>
 </body>
 </html>

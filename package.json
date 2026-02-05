@@ -1,0 +1,21 @@
+{
+  "name": "website-screenshot-monitor",
+  "version": "2.0.0",
+  "description": "Free website screenshot monitor using GitHub Actions",
+  "type": "module",
+  "scripts": {
+    "screenshots": "node src/take-screenshots.js"
+  },
+  "keywords": [
+    "screenshot",
+    "monitor",
+    "website",
+    "github-actions",
+    "puppeteer"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^22.0.0"
+  }
+}
